@@ -1,0 +1,175 @@
+{% extends 'SProvider/design1.html' %}
+{% block researchblock %}
+
+<link rel="icon" href="images/icon.png" type="image/x-icon" />
+<link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Righteous" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Fredoka+One" rel="stylesheet">
+
+<style>
+    body {
+        background-color: #000000;
+        color: #FFFFFF;
+    }
+
+    .container-fluid {
+        padding: 50px 15px;
+    }
+
+    .container {
+        background-color: white;
+        padding: 40px;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    #title {
+        font-family: 'times new roman', cursive;
+    }
+
+    .text-uppercase {
+        font-family: 'times new roman', cursive;
+    }
+
+    .tweettext {
+        width: 100%;
+        max-width: 100%;
+        margin-bottom: 20px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    th, td {
+        padding: 12px;
+        text-align: left;
+        font-size: 16px;
+        border: 1px solid #ddd;
+    }
+
+    th {
+        background-color: #05b3e2;
+        color: #000000;
+        font-weight: bold;
+    }
+
+    td {
+        background-color: #FFFFFF;
+        color: rgb(0, 0, 0);
+        font-family: times new roman;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    tr:hover {
+        background-color: #e0e0e0;
+    }
+
+    .style1 {
+        color: #0f0f0f;
+        font-weight: bold;
+    }
+
+    .style12 {
+        color: #0d0d0d;
+        font-weight: bold;
+    }
+
+    .no-padding {
+        padding: 0;
+    }
+
+    .text-center {
+        text-align: center;
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+        .container {
+            padding: 20px;
+        }
+
+        table th, table td {
+            font-size: 14px;
+            padding: 8px;
+        }
+
+        table {
+            font-size: 14px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        table th, table td {
+            font-size: 12px;
+            padding: 6px;
+        }
+    }
+
+</style>
+
+<body>
+    <div class="container-fluid">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <form role="form" method="POST">
+                        {% csrf_token %}
+                        <fieldset>
+                            <h2 align="center" class="text-uppercase pull-center style1">View Detection of Cardiac Arrest in Newborn Babies Details !!!</h2>
+                            <hr>
+                            <div class="tweettext">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Fid</th>
+                                            <th>Age_In_Days</th>
+                                            <th>Sex</th>
+                                            <th>ChestPainType</th>
+                                            <th>RestingBP--Heart Rate</th>
+                                            <th>RestingECG</th>
+                                            <th>MaxHR</th>
+                                            <th>ExerciseAngina</th>
+                                            <th>Oldpeak</th>
+                                            <th>ST_Slope</th>
+                                            <th>slp</th>
+                                            <th>caa</th>
+                                            <th>thall</th>
+                                            <th>Prediction</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for object in list_objects %}
+                                        <tr>
+                                            <td>{{ object.Fid }}</td>
+                                            <td>{{ object.Age_In_Days }}</td>
+                                            <td>{{ object.Sex }}</td>
+                                            <td>{{ object.ChestPainType }}</td>
+                                            <td>{{ object.RestingBP }}</td>
+                                            <td>{{ object.RestingECG }}</td>
+                                            <td>{{ object.MaxHR }}</td>
+                                            <td>{{ object.ExerciseAngina }}</td>
+                                            <td>{{ object.Oldpeak }}</td>
+                                            <td>{{ object.ST_Slope }}</td>
+                                            <td>{{ object.slp }}</td>
+                                            <td>{{ object.caa }}</td>
+                                            <td>{{ object.thall }}</td>
+                                            <td>{{ object.Prediction }}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+</body>

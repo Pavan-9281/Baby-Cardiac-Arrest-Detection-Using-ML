@@ -1,0 +1,314 @@
+{% extends 'SProvider/design1.html' %}
+{% block researchblock %}
+
+<div class="container">
+    <div class="header text-center mb-4">
+        <h2><i class="fas fa-users"></i> User Training Performance Comparison</h2>
+        <p class="text-muted">Compare machine learning model performance across different users</p>
+    </div>
+
+    {% if user_comparison_data %}
+    <div class="row">
+        <!-- User Performance Cards -->
+        {% for user_data in user_comparison_data %}
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100">
+                <div class="card-header text-center">
+                    <h5><i class="fas fa-user-circle"></i> {{ user_data.username }}</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row text-center mb-3">
+                        <div class="col-6">
+                            <div class="h3 text-primary">{{ user_data.average_accuracy }}%</div>
+                            <small class="text-muted">Avg Accuracy</small>
+                        </div>
+                        <div class="col-6">
+                            <div class="h3 text-success">{{ user_data.best_accuracy }}%</div>
+                            <small class="text-muted">Best Model</small>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center mb-3">
+                        <span class="badge bg-info">
+                            <i class="fas fa-robot"></i> {{ user_data.total_models }} Models
+                        </span>
+                    </div>
+                    
+                    <div class="small text-muted text-center">
+                        <strong>Best Model:</strong> {{ user_data.best_model_name }}
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="progress" style="height: 8px;">
+                        <div class="progress-bar bg-gradient" 
+                             style="width: {{ user_data.average_accuracy }}%; background: linear-gradient(45deg, #667eea, #764ba2);">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Detailed Comparison Table -->
+    <div class="card mt-4">
+        <div class="card-header">
+            <h4><i class="fas fa-table"></i> Detailed Model Comparison</h4>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th><i class="fas fa-user"></i> User</th>
+                            <th><i class="fas fa-robot"></i> Model</th>
+                            <th><i class="fas fa-percentage"></i> Accuracy</th>
+                            <th><i class="fas fa-trophy"></i> Rank</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user_data in user_comparison_data %}
+                            {% for model in user_data.models %}
+                            <tr>
+                                <td>
+                                    <span class="badge bg-primary">{{ user_data.username }}</span>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        {% if "Neural" in model.names %}
+                                            <i class="fas fa-brain text-primary me-2"></i>
+                                        {% elif "SVM" in model.names %}
+                                            <i class="fas fa-chart-bar text-success me-2"></i>
+                                        {% elif "Logistic" in model.names %}
+                                            <i class="fas fa-chart-line text-info me-2"></i>
+                                        {% elif "Decision" in model.names %}
+                                            <i class="fas fa-sitemap text-warning me-2"></i>
+                                        {% elif "Random Forest" in model.names %}
+                                            <i class="fas fa-tree text-success me-2"></i>
+                                        {% else %}
+                                            <i class="fas fa-cog text-secondary me-2"></i>
+                                        {% endif %}
+                                        {{ model.names }}
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="progress me-2" style="width: 80px; height: 6px;">
+                                            <div class="progress-bar" 
+                                                 style="width: {{ model.ratio }}%; background: linear-gradient(45deg, #667eea, #764ba2);">
+                                            </div>
+                                        </div>
+                                        <span class="fw-bold">{{ model.ratio }}%</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    {% if forloop.first and forloop.parentloop.first %}
+                                        <span class="badge bg-warning">
+                                            <i class="fas fa-crown"></i> 1st
+                                        </span>
+                                    {% elif forloop.first and forloop.parentloop.counter == 2 %}
+                                        <span class="badge bg-secondary">
+                                            <i class="fas fa-medal"></i> 2nd
+                                        </span>
+                                    {% elif forloop.first and forloop.parentloop.counter == 3 %}
+                                        <span class="badge bg-warning">
+                                            <i class="fas fa-award"></i> 3rd
+                                        </span>
+                                    {% else %}
+                                        <span class="badge bg-light text-dark">{{ forloop.parentloop.counter }}</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Performance Summary -->
+    <div class="row mt-4">
+        <div class="col-md-4">
+            <div class="card text-center">
+                <div class="card-body">
+                    <div class="display-4 text-primary">{{ user_comparison_data|length }}</div>
+                    <h5 class="text-muted">Total Users</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-center">
+                <div class="card-body">
+                    <div class="display-4 text-success">
+                        {% with top_user=user_comparison_data|first %}
+                            {{ top_user.average_accuracy }}%
+                        {% endwith %}
+                    </div>
+                    <h5 class="text-muted">Top User Avg</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-center">
+                <div class="card-body">
+                    <div class="display-4 text-info">
+                        {% with top_user=user_comparison_data|first %}
+                            {{ top_user.username }}
+                        {% endwith %}
+                    </div>
+                    <h5 class="text-muted">Best Performer</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% else %}
+    <div class="card">
+        <div class="card-body text-center">
+            <div class="icon mb-3">
+                <i class="fas fa-exclamation-triangle" style="font-size: 3em; color: #ffc107;"></i>
+            </div>
+            <h4>No Training Data Available</h4>
+            <p class="text-muted">No users have trained models yet. Please train models first to see comparisons.</p>
+            <a href="{% url 'train_model' %}" class="btn btn-primary">
+                <i class="fas fa-play"></i> Train Models
+            </a>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<style>
+.progress {
+    background-color: #e9ecef;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    transition: width 0.6s ease;
+}
+
+.badge {
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.8em;
+}
+
+.bg-primary {
+    background: linear-gradient(45deg, #007bff, #0056b3) !important;
+}
+
+.bg-success {
+    background: linear-gradient(45deg, #28a745, #20c997) !important;
+}
+
+.bg-info {
+    background: linear-gradient(45deg, #17a2b8, #20c997) !important;
+}
+
+.bg-warning {
+    background: linear-gradient(45deg, #ffc107, #fd7e14) !important;
+}
+
+.bg-secondary {
+    background: linear-gradient(45deg, #6c757d, #495057) !important;
+}
+
+.bg-light {
+    background: linear-gradient(45deg, #f8f9fa, #e9ecef) !important;
+}
+
+.text-primary {
+    color: #667eea !important;
+}
+
+.text-success {
+    color: #28a745 !important;
+}
+
+.text-info {
+    color: #17a2b8 !important;
+}
+
+.text-warning {
+    color: #ffc107 !important;
+}
+
+.text-secondary {
+    color: #6c757d !important;
+}
+
+.display-4 {
+    font-size: 2.5rem;
+    font-weight: 300;
+    line-height: 1.2;
+}
+
+.fw-bold {
+    font-weight: 600 !important;
+}
+
+.me-2 {
+    margin-right: 0.5rem !important;
+}
+
+.mb-3 {
+    margin-bottom: 1rem !important;
+}
+
+.mb-4 {
+    margin-bottom: 1.5rem !important;
+}
+
+.mt-4 {
+    margin-top: 1.5rem !important;
+}
+
+.h3 {
+    font-size: 1.75rem;
+    font-weight: 500;
+}
+
+.h4 {
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+
+.h5 {
+    font-size: 1.25rem;
+    font-weight: 500;
+}
+
+.card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.card-header {
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    color: white;
+    border-radius: 15px 15px 0 0 !important;
+    border: none;
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(102, 126, 234, 0.1);
+    transform: scale(1.01);
+    transition: all 0.3s ease;
+}
+
+.small {
+    font-size: 0.875em;
+}
+</style>
+
+{% endblock %} 

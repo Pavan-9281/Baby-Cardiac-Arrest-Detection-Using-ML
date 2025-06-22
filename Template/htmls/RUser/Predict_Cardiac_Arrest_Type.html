@@ -1,0 +1,233 @@
+{% extends 'RUser/design.html' %}
+{% load static %}
+{% block userblock %}
+
+<div class="container">
+    <div class="header text-center mb-4">
+        <h2><i class="fas fa-heartbeat"></i> Cardiac Arrest Prediction</h2>
+        <p class="text-muted">Enter patient details to predict cardiac arrest risk</p>
+    </div>
+
+    {% if objs %}
+    <div class="card mb-4">
+        <div class="card-header text-center">
+            <h3><i class="fas fa-clipboard-check"></i> Prediction Result</h3>
+        </div>
+        <div class="card-body text-center">
+            <div class="prediction-result">
+                <div class="display-4 mb-3">
+                    {% if objs == 'Cardiac Arrest Found' %}
+                        <i class="fas fa-exclamation-triangle text-danger"></i>
+                        <span class="text-danger">{{ objs }}</span>
+                    {% else %}
+                        <i class="fas fa-check-circle text-success"></i>
+                        <span class="text-success">{{ objs }}</span>
+                    {% endif %}
+                </div>
+                <p class="text-muted">Based on the provided health data</p>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="card">
+        <div class="card-header">
+            <h3><i class="fas fa-user-md"></i> Patient Health Data</h3>
+        </div>
+        <div class="card-body">
+            <form method="POST" role="form">
+                {% csrf_token %}
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="Fid"><i class="fas fa-id-card"></i> Patient ID</label>
+                            <input type="text" id="Fid" name="Fid" class="form-control" placeholder="Enter Patient ID" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="Age_In_Days"><i class="fas fa-calendar"></i> Age (Days)</label>
+                            <input type="number" id="Age_In_Days" name="Age_In_Days" class="form-control" placeholder="Enter age in days" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="Sex"><i class="fas fa-venus-mars"></i> Sex</label>
+                            <select id="Sex" name="Sex" class="form-control" required>
+                                <option value="">Select Gender</option>
+                                <option value="M">Male</option>
+                                <option value="F">Female</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="ChestPainType"><i class="fas fa-heart"></i> Chest Pain Type</label>
+                            <select id="ChestPainType" name="ChestPainType" class="form-control" required>
+                                <option value="">Select Pain Type</option>
+                                <option value="ATA">ATA</option>
+                                <option value="NAP">NAP</option>
+                                <option value="ASY">ASY</option>
+                                <option value="TA">TA</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="RestingBP"><i class="fas fa-tachometer-alt"></i> Resting Blood Pressure</label>
+                            <input type="number" id="RestingBP" name="RestingBP" class="form-control" placeholder="Enter BP (mmHg)" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="RestingECG"><i class="fas fa-heartbeat"></i> Resting ECG</label>
+                            <select id="RestingECG" name="RestingECG" class="form-control" required>
+                                <option value="">Select ECG Result</option>
+                                <option value="Normal">Normal</option>
+                                <option value="ST">ST</option>
+                                <option value="LVH">LVH</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="MaxHR"><i class="fas fa-running"></i> Maximum Heart Rate</label>
+                            <input type="number" id="MaxHR" name="MaxHR" class="form-control" placeholder="Enter max heart rate" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="ExerciseAngina"><i class="fas fa-dumbbell"></i> Exercise Angina</label>
+                            <select id="ExerciseAngina" name="ExerciseAngina" class="form-control" required>
+                                <option value="">Select Angina Status</option>
+                                <option value="Y">Yes</option>
+                                <option value="N">No</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="Oldpeak"><i class="fas fa-chart-line"></i> Old Peak</label>
+                            <input type="number" step="0.1" id="Oldpeak" name="Oldpeak" class="form-control" placeholder="Enter old peak value" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="ST_Slope"><i class="fas fa-chart-area"></i> ST Slope</label>
+                            <select id="ST_Slope" name="ST_Slope" class="form-control" required>
+                                <option value="">Select ST Slope</option>
+                                <option value="Up">Up</option>
+                                <option value="Flat">Flat</option>
+                                <option value="Down">Down</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="slp"><i class="fas fa-chart-bar"></i> SLP</label>
+                            <input type="number" id="slp" name="slp" class="form-control" placeholder="Enter SLP value" required>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="caa"><i class="fas fa-artery"></i> CAA</label>
+                            <input type="number" id="caa" name="caa" class="form-control" placeholder="Enter CAA value" required>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="thall"><i class="fas fa-atom"></i> Thallium</label>
+                            <input type="number" id="thall" name="thall" class="form-control" placeholder="Enter thallium value" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-primary btn-lg">
+                        <i class="fas fa-search"></i> Predict Cardiac Arrest Risk
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+.prediction-result {
+    padding: 20px;
+}
+
+.display-4 {
+    font-size: 2.5rem;
+    font-weight: 300;
+    line-height: 1.2;
+}
+
+.text-danger {
+    color: #dc3545 !important;
+}
+
+.text-success {
+    color: #28a745 !important;
+}
+
+.form-control {
+    border: 2px solid #e9ecef;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+}
+
+.btn-lg {
+    padding: 15px 40px;
+    font-size: 1.1em;
+    border-radius: 25px;
+}
+
+.card-header {
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    color: white;
+    border-radius: 15px 15px 0 0 !important;
+    border: none;
+}
+
+.card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.form-group label i {
+    margin-right: 8px;
+    color: #667eea;
+}
+</style>
+
+{% endblock %}
