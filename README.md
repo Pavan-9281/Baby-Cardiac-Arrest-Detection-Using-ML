@@ -1,189 +1,83 @@
-# Cardiac Arrest Prediction System
+# Cardiac Arrest Prediction using Machine Learning
 
-A Django-based machine learning application for predicting cardiac arrest risk using health parameters and statistical models.
+A Django web application that predicts the risk of cardiac arrest using machine learning models trained on real health data. The project features user and admin dashboards, modern UI, interactive charts, and supports user-specific model training and analytics.
 
-## 🚀 Quick Start
+## Features
+- Predict cardiac arrest risk based on health parameters
+- User registration, login, and profile management
+- Service provider (admin) dashboard for analytics and model training
+- Interactive, animated charts and modern glassmorphism UI
+- User-specific training and comparison analytics
+- Data visualization for prediction ratios and model accuracy
 
-### Prerequisites
-- Python 3.11 or higher
-- pip (Python package installer)
+## Tech Stack
+- Python 3.11+
+- Django 5.0+
+- pandas, scikit-learn, numpy
+- HTML5, CSS3, JavaScript (Chart.js, CanvasJS)
 
-### Installation
+## Setup Instructions
 
-1. **Navigate to the project directory:**
+1. **Clone the repository:**
    ```bash
-   cd a_machine_learning_approach_using_statistical_models
+   git clone https://github.com/yourusername/your-repo-name.git
+   cd your-repo-name/project-main
    ```
 
-2. **Create a virtual environment:**
+2. **Create and activate a virtual environment:**
    ```bash
    python -m venv venv
+   venv\Scripts\activate  # On Windows
+   # or
+   source venv/bin/activate  # On Mac/Linux
    ```
 
-3. **Activate the virtual environment:**
+3. **Install dependencies:**
    ```bash
-   # Windows
-   venv\Scripts\activate
-   
-   # macOS/Linux
-   source venv/bin/activate
+   pip install -r requirements.txt
    ```
 
-4. **Install required packages:**
+4. **Apply migrations:**
    ```bash
-   pip install Django>=5.0.2
-   pip install pandas>=2.0.0
-   pip install scikit-learn>=1.2.0
-   pip install numpy>=1.22.0
-   ```
-
-5. **Run database migrations:**
-   ```bash
+   cd a_machine_learning_approach_using_statistical_models
    python manage.py migrate
    ```
 
-6. **Start the development server:**
+5. **Run the development server:**
    ```bash
    python manage.py runserver
    ```
 
-7. **Access the application:**
-   Open your browser and go to: http://127.0.0.1:8000/
+6. **Access the app:**
+   Open your browser and go to [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
 
-## 👥 Default Users
+## Default Login Credentials
+- **Service Provider (Admin):**
+  - Username: `Admin`
+  - Password: `Admin`
+- **Sample Users:**
+  - Username: `Gopalan` / Password: `Gopalan`
+  - Username: `Manjunath` / Password: `Manjunath`
 
-### Service Provider (Admin)
-- **Username:** Admin
-- **Password:** Admin
+## Usage
+- Register as a new user or login with the provided credentials.
+- For service provider: login as Admin to access analytics, train models, and view user statistics.
+- For users: predict cardiac arrest risk, view your profile, and see your prediction history.
+- Use the "Browse and Train & Test Traffic Data Sets" option to train models with the provided dataset (`Datasets.csv`).
+- View interactive charts for prediction ratios and model accuracy.
 
-### Sample Users
-- **Username:** Gopalan | **Password:** Gopalan
-- **Username:** Manjunath | **Password:** Manjunath
+## Project Structure
+- `a_machine_learning_approach_using_statistical_models/` - Main Django project
+- `Remote_User/` - User-facing app
+- `Service_Provider/` - Admin/service provider app
+- `Template/` - HTML templates and static assets
+- `Datasets.csv` - Health dataset for training and prediction
 
-## 📊 Features
+## Screenshots
+_Add screenshots of the UI and charts here._
 
-### For Users
-- User registration and login
-- Cardiac arrest risk prediction
-- View prediction history
-- Profile management
+## Contributing
+Pull requests are welcome! For major changes, please open an issue first to discuss what you would like to change.
 
-### For Service Providers (Admin)
-- User management
-- Model training with datasets
-- Analytics and charts
-- Prediction ratio analysis
-- User training comparison
-
-## 🎯 How to Use
-
-### Making Predictions
-1. Login as a user
-2. Navigate to "Predict Cardiac Arrest Type"
-3. Enter health parameters:
-   - Age in days
-   - Sex (M/F)
-   - Chest pain type
-   - Resting blood pressure
-   - Resting ECG results
-   - Maximum heart rate
-   - Exercise angina
-   - Oldpeak
-   - ST slope
-   - Other parameters (slp, caa, thall)
-
-### Training Models (Admin)
-1. Login as Admin
-2. Go to "Browse and Train & Test Traffic Data Sets"
-3. Select a user for training
-4. The system will train multiple ML models:
-   - Random Forest
-   - Logistic Regression
-   - Support Vector Machine
-   - Decision Tree
-
-### Viewing Analytics
-- **Prediction Ratios:** View distribution of cardiac arrest predictions
-- **Model Accuracy:** Compare performance of different ML models
-- **User Training Comparison:** Analyze training results by user
-
-## 📁 Project Structure
-
-```
-a_machine_learning_approach_using_statistical_models/
-├── Remote_User/                 # User-facing application
-│   ├── models.py               # User and prediction models
-│   ├── views.py                # User views and prediction logic
-│   └── templates/              # User interface templates
-├── Service_Provider/           # Admin application
-│   ├── models.py               # Admin models
-│   ├── views.py                # Admin views and analytics
-│   └── templates/              # Admin interface templates
-├── Template/                   # Static assets
-│   ├── htmls/                  # HTML templates
-│   └── images/                 # Image assets
-├── Datasets.csv               # Training dataset
-├── manage.py                  # Django management script
-└── settings.py                # Django settings
-```
-
-## 🔧 Troubleshooting
-
-### Common Issues
-
-1. **ModuleNotFoundError: No module named 'sklearn'**
-   ```bash
-   pip install scikit-learn
-   ```
-
-2. **Database migration errors**
-   ```bash
-   python manage.py makemigrations
-   python manage.py migrate
-   ```
-
-3. **Port already in use**
-   ```bash
-   python manage.py runserver 8001
-   ```
-
-### Python Version Compatibility
-- This project is optimized for Python 3.11+
-- If using Python 3.13, ensure Django 5.0+ is installed
-
-## 📈 Machine Learning Models
-
-The system uses ensemble learning with multiple algorithms:
-- **Random Forest Classifier**
-- **Logistic Regression**
-- **Support Vector Machine (SVM)**
-- **Decision Tree Classifier**
-
-All models are combined using a Voting Classifier for improved prediction accuracy.
-
-## 🎨 UI Features
-
-- Modern glassmorphism design
-- Interactive charts using Chart.js and CanvasJS
-- Responsive design for mobile and desktop
-- Animated elements and smooth transitions
-- Purple-blue gradient theme
-
-## 📝 License
-
-This project is for educational and research purposes.
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Submit a pull request
-
-## 📞 Support
-
-For issues and questions, please create an issue in the repository.
-
----
-
-**Note:** This is a demonstration project for cardiac arrest prediction using machine learning. Always consult healthcare professionals for medical decisions. 
+## License
+[MIT](LICENSE) (or specify your license) 
